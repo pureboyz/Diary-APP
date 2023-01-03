@@ -13,7 +13,23 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/ivory"
         android:id="@+id/toolbar"
-        app:title="Main Page.."
+        app:title="Memo List.."
         app:titleTextColor="@color/teal_700"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

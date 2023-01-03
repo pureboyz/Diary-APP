@@ -1,147 +1,36 @@
 package pw.pureboyz.questiondiary;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.HashMap;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-import pw.pureboyz.questiondiary.element.TextViewCreator;
-import pw.pureboyz.questiondiary.http.HttpCallback;
-import pw.pureboyz.questiondiary.http.HttpRequester;
-import pw.pureboyz.questiondiary.util.GlobalVariables;
+import pw.pureboyz.questiondiary.memo.MemoListActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    private MainActivity    mainActivity;
-    private LinearLayout    linearLayout;
-    private ScrollView      scrollView;
-
-    private int     begin   = 0;    // 가져올 메모 리스트의 시작점.
-    private boolean isExist = true; // 가져올 메모 리스트의 존재여부
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // activity_main.xml 의 Toolbar 세팅.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // 마지막에 로그인 된 계정정보를 가져온다.
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
 
-        mainActivity    = this;
-        linearLayout    = (LinearLayout) findViewById(R.id.linearLayout);
-        scrollView      = (ScrollView) findViewById(R.id.scrollView);
-
-        // scrollView 움직임 감지.
-        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                if(!view.canScrollVertically(1))
-                {
-                    // 가져올 메모 리스트가 존재하는 경우에만 10개를 추가로 불러온다.
-                    if(isExist) { getMemoList(); }
-                }
-            }
-        });
-
-        // 메모 리스트 10개를 불러온다.
-        getMemoList();
-    }
-
-    public void getMemoList()
-    {
-        // HttpRequest -> 메모 리스트를 불러와서 memoSelectListCallback callback method를 실행시킴.
-        HashMap<String, String> selectListParamMap = new HashMap<>();
-        selectListParamMap.put("begin", String.valueOf(this.begin));
-        new HttpRequester().request(GlobalVariables.getInstance().getUrlApi()+"/memo/SelectList", selectListParamMap, memoSelectListCallback);
-        this.begin += 10;
-    }
-
-    // activity에 메뉴 추가
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    // 메뉴 클릭 시 실행
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
+        // 계정정보가 존재하면 memo list 화면으로 이동.
+        if(googleSignInAccount != null)
         {
-            case R.id.writememo:
-                Intent intent = new Intent(getApplicationContext(), MemoWriteActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                Log.d(this.getClass().getName(), "메뉴 클릭을 했지만, 매핑된 부분이 없음!!!!!");
+            Intent intent = new Intent(getApplicationContext(), MemoListActivity.class);
+            startActivity(intent);
         }
-        return true;
+        // 계정정보가 존재하지 않으면 login 화면으로 이동.
+        else
+        {
+            Intent intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
+            startActivity(intent);
+        }
     }
-
-    // 메모 리스트를 불러온 이후 실행.
-    HttpCallback memoSelectListCallback = new HttpCallback() {
-        @Override
-        public void onResult(String result) {
-            try
-            {
-                JSONObject memoSelectListResult = new JSONObject(result);
-
-                int         code            = memoSelectListResult.getInt("code");
-                String      message         = memoSelectListResult.getString("message");
-                JSONArray   memoJsonArray   = null;
-
-                // 성공한 경우에만 data 를 가져옴.
-                if(code == 0) { memoJsonArray = memoSelectListResult.getJSONArray("data"); }
-
-                // 데이터를 잘 가져온 경우(code:0)
-                if(code == 0)
-                {
-                    for(int i=0; i<memoJsonArray.length(); i++)
-                    {
-                        JSONObject memoInfo = memoJsonArray.getJSONObject(i);
-
-                        int     seq         = memoInfo.getInt("seq");
-                        String  contents    = memoInfo.getString("contents");
-                        String  createDate  = memoInfo.getString("createDate");
-                        String  updateDate  = memoInfo.getString("updateDate");
-                        String  deleteDate  = memoInfo.getString("deleteDate");
-
-                        linearLayout.addView((TextView) new TextViewCreator(mainActivity).makeTextView(seq, contents));
-                    }
-                }
-                // 더이상 데이터가 존재하지 않는 경우(api 호출에 성공했으나 데이터가 없는 경우(code:611))
-                else if(code == 611)
-                {
-                    isExist = false;
-                }
-                // 데이터를 못 가져온 경우 '메모가 존재하지 않습니다.' 문구 노출 (api 호출에 실패한 경우 모두 포함)
-                else
-                {
-                    isExist = false;
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-    };
 }

@@ -1,23 +1,26 @@
-package pw.pureboyz.questiondiary;
+package pw.pureboyz.questiondiary.memo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import pw.pureboyz.questiondiary.MainActivity;
+import pw.pureboyz.questiondiary.R;
 import pw.pureboyz.questiondiary.http.HttpCallback;
 import pw.pureboyz.questiondiary.http.HttpRequester;
 import pw.pureboyz.questiondiary.util.GlobalVariables;

@@ -13,7 +13,20 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/ivory"
         android:id="@+id/toolbar"
-        app:title="Main Page.."
+        app:title="Login Page.."
         app:titleTextColor="@color/teal_700"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleLoginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -7,4 +7,10 @@
         android:title="메모 작성"
         android:icon="@drawable/ic_toolbar_add_24"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/logout"
+        android:enabled="true"
+        android:title="로그아웃"
+        android:icon="@drawable/ic_toolbar_logout_24"
+        app:showAsAction="always"/>
 </menu>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="pw.pureboyz.questiondiary">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,7 +24,17 @@
         </activity>
 
         <activity
-            android:name=".MemoWriteActivity"
+            android:name=".memo.MemoListActivity"
+            android:exported="true"
+            tools:ignore="MissingClass">
+        </activity>
+        <activity
+            android:name=".memo.MemoWriteActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".GoogleLoginActivity"
             android:exported="true">
         </activity>
     </application>

@@ -40,4 +40,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    // 구글플레이 서비스
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
 }

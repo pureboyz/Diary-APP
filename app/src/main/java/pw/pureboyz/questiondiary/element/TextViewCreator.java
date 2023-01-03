@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import pw.pureboyz.questiondiary.MainActivity;
-import pw.pureboyz.questiondiary.MemoWriteActivity;
+import pw.pureboyz.questiondiary.memo.MemoListActivity;
+import pw.pureboyz.questiondiary.memo.MemoWriteActivity;
 import pw.pureboyz.questiondiary.R;
 import pw.pureboyz.questiondiary.http.HttpCallback;
 import pw.pureboyz.questiondiary.http.HttpRequester;
@@ -25,7 +25,7 @@ import pw.pureboyz.questiondiary.util.GlobalVariables;
 
 public class TextViewCreator
 {
-    private MainActivity mainActivity;
+    private MemoListActivity memoListActivity;
 
     private static final int MARGIN_TOP     = 25;
     private static final int MARGIN_BOTTOM  = 25;
@@ -33,9 +33,9 @@ public class TextViewCreator
 
     private int id;
 
-    public TextViewCreator(MainActivity mainActivity)
+    public TextViewCreator(MemoListActivity memoListActivity)
     {
-        this.mainActivity = mainActivity;
+        this.memoListActivity = memoListActivity;
     }
 
     @SuppressLint("ResourceType")
@@ -43,7 +43,7 @@ public class TextViewCreator
     {
         this.id = id;
 
-        TextView textView = new TextView(mainActivity);
+        TextView textView = new TextView(memoListActivity);
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                  ViewGroup.LayoutParams.MATCH_PARENT
@@ -86,10 +86,10 @@ public class TextViewCreator
                 String      message     = memoSelectListResult.getString("message");
                 JSONObject  memoInfo    = memoSelectListResult.getJSONObject("data");
 
-                Intent intent = new Intent(mainActivity.getApplicationContext(), MemoWriteActivity.class);
+                Intent intent = new Intent(memoListActivity.getApplicationContext(), MemoWriteActivity.class);
                 if(code == 0) { intent.putExtra("memoInfo", memoInfo.toString()); }
 
-                mainActivity.startActivity(intent);
+                memoListActivity.startActivity(intent);
             }
             catch (JSONException e)
             {
