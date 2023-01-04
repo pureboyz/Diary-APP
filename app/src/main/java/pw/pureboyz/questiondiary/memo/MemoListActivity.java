@@ -72,8 +72,8 @@ public class MemoListActivity extends AppCompatActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_sidemenu_dehaze_24);
 
+        // 사이드 메뉴 구성
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -142,18 +142,20 @@ public class MemoListActivity extends AppCompatActivity
         Intent intent;
         switch (item.getItemId())
         {
+            // 메모 작성 버튼
             case R.id.writememo:
                 intent = new Intent(getApplicationContext(), MemoWriteActivity.class);
                 startActivity(intent);
                 break;
+            // 로그아웃 버튼
             case R.id.logout:
                 signOut();
 
                 intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
                 startActivity(intent);
                 break;
+            // 햄버거 버튼
             case android.R.id.home:
-                Log.d(this.getClass().getName(), "side menu click!!");
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             default:
