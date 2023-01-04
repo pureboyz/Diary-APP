@@ -1,5 +1,6 @@
 package pw.pureboyz.questiondiary.memo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,16 +11,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +51,9 @@ public class MemoListActivity extends AppCompatActivity
     private int     begin   = 0;    // 가져올 메모 리스트의 시작점.
     private boolean isExist = true; // 가져올 메모 리스트의 존재여부
 
+    private DrawerLayout mDrawerLayout;
+    private Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,37 @@ public class MemoListActivity extends AppCompatActivity
         memoListActivity    = this;
         linearLayout    = (LinearLayout) findViewById(R.id.linearLayout);
         scrollView      = (ScrollView) findViewById(R.id.scrollView);
+
+        // toolbar 에 사이드메뉴 버튼 추가
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_sidemenu_dehaze_24);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+                String title = menuItem.getTitle().toString();
+
+                if(id == R.id.account){
+                    Toast.makeText(context, title + ": 계정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.setting){
+                    Toast.makeText(context, title + ": 설정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.logout){
+                    Toast.makeText(context, title + ": 로그아웃 시도중", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            }
+        });
 
         // scrollView 움직임 감지.
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -73,6 +113,11 @@ public class MemoListActivity extends AppCompatActivity
         // 메모 리스트 10개를 불러온다.
         getMemoList();
     }
+
+
+
+
+
 
     public void getMemoList()
     {
@@ -106,6 +151,10 @@ public class MemoListActivity extends AppCompatActivity
 
                 intent = new Intent(getApplicationContext(), GoogleLoginActivity.class);
                 startActivity(intent);
+                break;
+            case android.R.id.home:
+                Log.d(this.getClass().getName(), "side menu click!!");
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             default:
                 Log.d(this.getClass().getName(), "메뉴 클릭을 했지만, 매핑된 부분이 없음!!!!!");

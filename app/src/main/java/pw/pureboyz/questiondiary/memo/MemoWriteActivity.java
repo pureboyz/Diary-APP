@@ -69,7 +69,7 @@ public class MemoWriteActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // 뒤로가기 버튼 세팅.
-        ActionBar actionBar = getSupportActionBar ();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled (true);
     }
 
