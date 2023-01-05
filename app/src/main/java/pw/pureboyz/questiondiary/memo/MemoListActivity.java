@@ -75,6 +75,18 @@ public class MemoListActivity extends AppCompatActivity
         // 사이드 메뉴 구성
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        // 사이드 메뉴 내 메뉴를 가져옴.
+        Menu menu = navigationView.getMenu();
+        // 이런식으로 동적으로 메뉴 아이템을 추가할 수 있음.
+        menu.getItem(0).getSubMenu().add(Menu.NONE, 3, Menu.NONE, "메롱");
+        /*
+        *
+        * DB 에서 item list 를 가져와서 동적으로 추가하자.
+        *
+        */
+
+        // 메뉴의 각 item 클릭 이벤트 연결
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -82,6 +94,7 @@ public class MemoListActivity extends AppCompatActivity
                 mDrawerLayout.closeDrawers();
 
                 int id = menuItem.getItemId();
+                Log.d(this.getClass().getName(), "zzzzz[1] " + id);
                 String title = menuItem.getTitle().toString();
 
                 if(id == R.id.account){

@@ -68,12 +68,12 @@ public class GoogleLoginActivity extends AppCompatActivity
 
             if(account != null)
             {
-                String personName = account.getDisplayName();
-                String personGivenName = account.getGivenName();
-                String personFamilyName = account.getFamilyName();
-                String personEmail = account.getEmail();
-                String personId = account.getId();
-                Uri personPhoto = account.getPhotoUrl();
+                String  personName          = account.getDisplayName();
+                String  personGivenName     = account.getGivenName();
+                String  personFamilyName    = account.getFamilyName();
+                String  personEmail         = account.getEmail();
+                String  personId            = account.getId();
+                Uri     personPhoto         = account.getPhotoUrl();
 
                 Log.d(this.getClass().getName(), "personName : " + personName);
                 Log.d(this.getClass().getName(), "personGivenName : " + personGivenName);
