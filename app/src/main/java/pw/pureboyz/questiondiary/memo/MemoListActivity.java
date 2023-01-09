@@ -79,7 +79,7 @@ public class MemoListActivity extends AppCompatActivity
         // 사이드 메뉴 내 메뉴를 가져옴.
         Menu menu = navigationView.getMenu();
         // 이런식으로 동적으로 메뉴 아이템을 추가할 수 있음.
-        menu.getItem(0).getSubMenu().add(Menu.NONE, 3, Menu.NONE, "메롱");
+        menu.getItem(0).getSubMenu().add(Menu.NONE, 3, Menu.NONE, "     - "+"가나다라마바사아자차카타파하!!");
         /*
         *
         * DB 에서 item list 를 가져와서 동적으로 추가하자.
@@ -90,7 +90,7 @@ public class MemoListActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
+//                menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
 
                 int id = menuItem.getItemId();
