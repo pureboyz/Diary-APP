@@ -21,6 +21,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -134,9 +135,12 @@ public class MemoListActivity extends AppCompatActivity
 
     public void getMemoList()
     {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
         // HttpRequest -> 메모 리스트를 불러와서 memoSelectListCallback callback method를 실행시킴.
         HashMap<String, String> selectListParamMap = new HashMap<>();
-        selectListParamMap.put("begin", String.valueOf(this.begin));
+        selectListParamMap.put("userId",    account.getId());
+        selectListParamMap.put("begin",     String.valueOf(this.begin));
         new HttpRequester().request(GlobalVariables.getInstance().getUrlApi()+"/memo/SelectList", selectListParamMap, memoSelectListCallback);
         this.begin += 10;
     }

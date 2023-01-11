@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,8 +68,11 @@ public class TextViewCreator
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(memoListActivity);
+
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("seq", String.valueOf(id));
+                hashMap.put("seq",      String.valueOf(id));
+                hashMap.put("userId",   account.getId());
                 new HttpRequester().request(GlobalVariables.getInstance().getUrlApi()+"/memo/Select", hashMap, memoSelectCallback);
             }
         });

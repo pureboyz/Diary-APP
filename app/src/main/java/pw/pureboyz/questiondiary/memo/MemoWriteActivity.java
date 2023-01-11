@@ -14,6 +14,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,9 +95,12 @@ public class MemoWriteActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.memo_save:
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
                 String contents = editText.getText().toString();
                 HashMap<String, String> saveParamMap = new HashMap<>();
                 saveParamMap.put("seq",         String.valueOf(this.seq));
+                saveParamMap.put("userId",      account.getId());
                 saveParamMap.put("contents",    contents);
 
                 // insert
